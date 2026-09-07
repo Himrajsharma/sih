@@ -145,18 +145,19 @@ body {
   border-radius: 8px;
 }
 
-/* Google Maps Custom InfoWindow */
-.google-popup-content {
-  background: var(--panel-bg);
-  color: var(--text-primary);
-  padding: 10px;
-  min-width: 200px;
+/* Custom Leaflet Tooltip for Dark Mode */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--panel-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--panel-border);
 }
-.google-popup-content h4 {
+.leaflet-popup-content {
+  margin: 13px 19px;
+}
+.leaflet-popup-content h4 {
   margin: 0 0 10px 0;
   border-bottom: 1px solid #444;
   padding-bottom: 5px;
-  font-size: 1.1rem;
 }
 .popup-stat {
   display: flex;
