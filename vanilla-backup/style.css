@@ -1,0 +1,394 @@
+:root {
+    --bg-color: #121212;
+    --panel-bg: #1e1e1e;
+    --panel-border: #333;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --accent: #3b82f6;
+    
+    --risk-low: #10b981;    /* Green */
+    --risk-medium: #f59e0b; /* Yellow/Orange */
+    --risk-high: #ef4444;   /* Red */
+    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--panel-bg);
+    border-bottom: 1px solid var(--panel-border);
+    height: 70px;
+}
+
+.logo-area h1 {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+}
+
+.logo-area .subtitle {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.mode-btn {
+    background: transparent;
+    border: 1px solid var(--panel-border);
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.mode-btn.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.mode-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.mode-btn.disabled span {
+    font-size: 0.75rem;
+    display: block;
+}
+
+.live-indicator {
+    color: #ef4444;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-left: 15px;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Layout */
+.dashboard-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: 15px;
+    gap: 15px;
+}
+
+.panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel h2, .panel h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--panel-border);
+    color: var(--text-primary);
+}
+
+/* Map Panel */
+.map-panel {
+    flex: 2;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #1a1a1a;
+}
+
+/* Custom Leaflet Tooltip for Dark Mode */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: var(--panel-bg) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--panel-border);
+}
+.leaflet-popup-content h4 {
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+.popup-stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+/* Right Panels */
+.right-panel-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 350px;
+}
+
+.risk-list-panel {
+    flex: 1.2;
+}
+
+.alerts-panel {
+    flex: 1;
+}
+
+.chart-panel {
+    flex: 1.2;
+}
+
+/* Risk List */
+.risk-list-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    padding: 0 5px;
+}
+
+.village-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.village-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.03);
+    margin-bottom: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.village-item:hover, .village-item.selected {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.village-name {
+    font-weight: 500;
+}
+
+.risk-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    min-width: 60px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Alert Log */
+.alerts-log {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.alert-entry {
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid var(--text-secondary);
+}
+
+.alert-entry.critical {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-left-color: var(--risk-high);
+}
+
+.alert-entry .time {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+}
+
+/* Chart */
+.chart-container {
+    position: relative;
+    height: 150px;
+    width: 100%;
+}
+#chart-village-name {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+
+/* Controls Panel */
+.controls-panel {
+    margin: 0 15px 15px 15px;
+    height: 160px;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.control-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn.primary {
+    background-color: var(--risk-high);
+    color: white;
+    flex: 2;
+}
+
+.btn.secondary {
+    background-color: #4b5563;
+    color: white;
+    flex: 1;
+}
+
+.active-sim-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.sliders-group {
+    flex: 2;
+}
+
+.slider-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.slider-row label {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.slider-row input[type=range] {
+    flex: 2;
+    margin: 0 15px;
+    accent-color: var(--accent);
+}
+
+.slider-row .slider-val {
+    width: 40px;
+    text-align: right;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.help-text {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-top: auto;
+}
+
+#override-village-name {
+    color: var(--accent);
+}
+
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: var(--risk-high);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+    animation: slideDown 0.3s ease-out forwards;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper-Local Landslide Early Warning System</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="logo-area">
+            <h1>⛰️ BhoomiRakshak</h1>
+            <span class="subtitle">Hyper-Local Landslide Early Warning System (Demo)</span>
+        </div>
+        <div class="header-controls">
+            <button id="mode-landslide" class="mode-btn active">Landslide Risk</button>
+            <button id="mode-flood" class="mode-btn disabled" title="Future Scope">Flash Flood Risk <span>(Coming Soon)</span></button>
+            <span class="live-indicator">🔴 LIVE</span>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="dashboard-layout">
+        
+        <!-- Left Panel: Map -->
+        <div class="panel map-panel">
+            <div id="map"></div>
+        </div>
+
+        <!-- Right Panel: Sidebars -->
+        <div class="right-panel-container">
+            
+            <!-- Top Right: Village Risk List -->
+            <div class="panel risk-list-panel">
+                <h2>Real-Time Risk Rankings</h2>
+                <div class="risk-list-header">
+                    <span>Village / Ward</span>
+                    <span>Risk Score</span>
+                </div>
+                <ul id="village-list" class="village-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+
+            <!-- Middle Right: Alerts Log -->
+            <div class="panel alerts-panel">
+                <h2>System Alerts Log</h2>
+                <div class="alerts-log" id="alerts-log">
+                    <div class="alert-entry info">
+                        <span class="time">System Start</span>
+                        <span class="message">Monitoring active. All sensors nominal.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Right: Trend Chart -->
+            <div class="panel chart-panel">
+                <h2>Sensor Trends <span id="chart-village-name">(Select a village)</span></h2>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Panel: Controls -->
+    <div class="panel controls-panel">
+        <div class="control-group">
+            <h3>Simulation Controls</h3>
+            <div class="action-buttons">
+                <button id="btn-simulate" class="btn primary">⚠️ Simulate Storm Event</button>
+                <button id="btn-reset" class="btn secondary">🔄 Reset Baseline</button>
+            </div>
+            <div class="active-sim-info" id="sim-status">
+                Simulation inactive. Ready.
+            </div>
+        </div>
+        
+        <div class="control-group sliders-group">
+            <h3>Manual Overrides <span id="override-village-name">(Global)</span></h3>
+            <div class="slider-row">
+                <label>Rainfall (mm/hr)</label>
+                <input type="range" id="slider-rain" min="0" max="100" value="10">
+                <span id="val-rain" class="slider-val">10</span>
+            </div>
+            <div class="slider-row">
+                <label>Soil Moisture (%)</label>
+                <input type="range" id="slider-moisture" min="0" max="100" value="30">
+                <span id="val-moisture" class="slider-val">30%</span>
+            </div>
+            <div class="slider-row">
+                <label>Slope Stability Index</label>
+                <input type="range" id="slider-slope" min="0" max="100" value="95">
+                <span id="val-slope" class="slider-val">95</span>
+            </div>
+            <small class="help-text">Select a village on the map to override its specific sensors.</small>
+        </div>
+    </div>
+
+    <!-- Audio for alerts -->
+    <audio id="alert-sound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
