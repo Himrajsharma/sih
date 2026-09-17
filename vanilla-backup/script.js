@@ -17,7 +17,6 @@ const BASELINES = JSON.parse(JSON.stringify(VILLAGES));
 let selectedVillageId = null;
 let simulationActive = false;
 let simulationTargetId = null;
-let simulationInterval = null;
 let mapMarkers = {};
 let trendChart = null;
 let chartDataHistory = {};
@@ -190,9 +189,13 @@ function triggerAlert(village) {
     // 3. Audio (Stretch Goal)
     try {
         const audio = document.getElementById('alert-sound');
-        audio.currentTime = 0;
-        audio.play().catch(e => console.log("Audio play prevented by browser policy", e));
-    } catch(e) {}
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Audio play prevented by browser policy", e));
+        }
+    } catch(err) {
+        console.log("Audio play exception", err);
+    }
 }
 
 
