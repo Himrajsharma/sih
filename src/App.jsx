@@ -495,51 +495,6 @@ export default function App() {
             onSelect={setSelectedVillageId} 
             mode={activeMode}
           />
-
-          <div className="right-intelligence-hub">
-            <div className="hub-tabs-header">
-              <button 
-                className={`hub-tab-btn ${rightTab === 'warning' ? 'active' : ''}`}
-                onClick={() => setRightTab('warning')}
-              >
-                <Waves size={13} /> Early Warning Hub
-              </button>
-              <button 
-                className={`hub-tab-btn ${rightTab === 'trend' ? 'active' : ''}`}
-                onClick={() => setRightTab('trend')}
-              >
-                <LineChart size={13} /> Sensor Telemetry
-              </button>
-              <button 
-                className={`hub-tab-btn ${rightTab === 'logs' ? 'active' : ''}`}
-                onClick={() => setRightTab('logs')}
-              >
-                <Bell size={13} /> Emergency Logs
-              </button>
-            </div>
-
-            <div className="hub-content-area">
-              {rightTab === 'warning' && (
-                <FlashFloodPanel 
-                  village={selectedVillage} 
-                  mode={activeMode} 
-                />
-              )}
-
-              {rightTab === 'trend' && (
-                <TrendChart 
-                  village={selectedVillage} 
-                  history={selectedVillage ? history[selectedVillageId] : null} 
-                  monthlyHistory={selectedVillage ? monthlyHistory[selectedVillageId] : null}
-                  mode={activeMode}
-                />
-              )}
-
-              {rightTab === 'logs' && (
-                <AlertsLog alerts={alerts} onClearAlerts={handleClearAlerts} />
-              )}
-            </div>
-          </div>
         </div>
       </div>
 

@@ -163,11 +163,28 @@ export default function ControlsPanel({
               <span className="override-target-name"> {village ? `(${village.name})` : '(Global Selected Ward)'}</span>
             </span>
           </div>
+          <span className="ward-badge-pill" style={{ borderColor: village ? village.cat.hex : '#0284c7', color: village ? village.cat.hex : '#0284c7' }}>
+            {village ? `${village.score}/100 ${village.cat.label}` : 'SELECT WARD'}
+          </span>
+        </div>
+
+        {/* Quick Parameter Preset Chips */}
+        <div className="presets-container" style={{ marginBottom: '4px' }}>
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', marginRight: '4px' }}>
+            <Zap size={11} style={{ color: 'var(--accent-blue)' }} /> Quick Presets:
+          </span>
+          <button className="preset-btn" onClick={() => onApplyPreset(85, village ? village.moisture : 60, village ? village.slope : 80, village ? village.riverLevel : 2.5, village ? village.riverRiseRate : 5)}>
+            <CloudRain size={11} /> 85mm Rain
+          </button>
+          <button className="preset-btn" onClick={() => onApplyPreset(village ? village.rain : 40, village ? village.moisture : 60, village ? village.slope : 80, 4.2, 12)}>
+            <Waves size={11} /> 4.2m Surge
+          </button>
+          <button className="preset-btn" onClick={() => onApplyPreset(village ? village.rain : 40, 95, village ? village.slope : 80, village ? village.riverLevel : 2.5, village ? village.riverRiseRate : 5)}>
+            <Droplets size={11} /> 95% Saturation
+          </button>
         </div>
 
         <div className="sliders-grid">
-
-
           <div className="slider-row">
             <label>
               <CloudRain size={13} style={{ color: 'var(--accent-blue)' }} />
@@ -263,6 +280,14 @@ export default function ControlsPanel({
               </div>
             </>
           )}
+        </div>
+
+        {/* Live Telemetry Override Footer Status */}
+        <div className="active-sim-banner" style={{ marginTop: '4px' }}>
+          <Activity size={14} style={{ color: 'var(--accent-blue)' }} />
+          <span>
+            Telemetry Target: <strong>{village ? village.name : 'Target Ward'}</strong> | Danger Level: <strong>{(village?.dangerMark || 4.0).toFixed(1)}m</strong> | Evacuation Window: <strong style={{ color: (village?.leadTimeMins || 45) < 30 ? '#dc2626' : '#f59e0b' }}>{village?.leadTimeMins || 45} mins</strong>
+          </span>
         </div>
       </div>
     </div>
